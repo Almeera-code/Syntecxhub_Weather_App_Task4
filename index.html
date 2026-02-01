@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeru CloudSphere | Live Weather Dashboard - Task 4</title>
+  <meta name="description"
+    content="Real-time weather tracker with live forecasts, beautiful visualizations, and dynamic backgrounds">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Background Animation -->
+  <div class="bg-animation">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+  </div>
+
+  <!-- Weather Particles -->
+  <div class="weather-particles" id="weatherParticles"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="logo">
+        <i class="fas fa-cloud-sun"></i>
+        <span>Meeru's CloudSphere</span>
+      </div>
+      <div class="header-info">
+        <div class="date-time">
+          <span class="current-date" id="currentDate">Loading...</span>
+          <span class="current-time" id="currentTime">--:--</span>
+        </div>
+      </div>
+      <button class="location-btn" id="locationBtn" title="Use My Location">
+        <i class="fas fa-location-crosshairs"></i>
+      </button>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search for a city...">
+        <button class="search-btn" id="searchBtn">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="popular-cities">
+        <span class="popular-label">Popular:</span>
+        <button class="city-chip" data-city="London">London</button>
+        <button class="city-chip" data-city="New York">New York</button>
+        <button class="city-chip" data-city="Tokyo">Tokyo</button>
+        <button class="city-chip" data-city="Dubai">Dubai</button>
+        <button class="city-chip" data-city="Paris">Paris</button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading-container">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
+      <p class="loading-text">Fetching weather data<span class="dots"></span></p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="error-container">
+      <i class="fas fa-cloud-showers-heavy"></i>
+      <h3>Oops! Something went wrong</h3>
+      <p id="errorMessage"></p>
+      <button class="retry-btn" id="retryBtn">
+        <i class="fas fa-redo"></i> Try Again
+      </button>
+    </div>
+
+    <!-- Weather Dashboard -->
+    <div id="weatherDashboard" class="weather-dashboard">
+      <!-- Main Weather Card -->
+      <div class="main-weather-card">
+        <div class="weather-header">
+          <div class="location-info">
+            <h1 class="city-name" id="cityName">--</h1>
+            <p class="country-name" id="countryName">--</p>
+          </div>
+          <div class="weather-icon-container">
+            <img id="weatherIcon" src="" alt="Weather" class="weather-icon-large">
+            <span class="weather-description" id="weatherDescription">--</span>
+          </div>
+        </div>
+
+        <div class="temperature-display">
+          <span class="temp-value" id="temperature">--</span>
+          <span class="temp-unit">°C</span>
+          <div class="feels-like">
+            Feels like <span id="feelsLike">--</span>°C
+          </div>
+        </div>
+
+        <div class="weather-stats">
+          <div class="stat-card">
+            <i class="fas fa-wind"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="windSpeed">--</span>
+              <span class="stat-label">Wind Speed</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-droplet"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="humidity">--</span>
+              <span class="stat-label">Humidity</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-eye"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="visibility">--</span>
+              <span class="stat-label">Visibility</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-gauge-high"></i>
+            <div class="stat-info">
+              <span class="stat-value" id="pressure">--</span>
+              <span class="stat-label">Pressure</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sun Info Card -->
+      <div class="sun-card">
+        <h3><i class="fas fa-sun"></i> Sun Schedule</h3>
+        <div class="sun-times">
+          <div class="sun-time">
+            <i class="fas fa-sunrise"></i>
+            <span class="sun-label">Sunrise</span>
+            <span class="sun-value" id="sunrise">--:--</span>
+          </div>
+          <div class="sun-progress">
+            <div class="sun-track">
+              <div class="sun-position" id="sunPosition"></div>
+            </div>
+          </div>
+          <div class="sun-time">
+            <i class="fas fa-sunset"></i>
+            <span class="sun-label">Sunset</span>
+            <span class="sun-value" id="sunset">--:--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Day Forecast -->
+      <div class="forecast-section">
+        <h3><i class="fas fa-calendar-week"></i> 5-Day Forecast</h3>
+        <div class="forecast-grid" id="forecastGrid">
+          <!-- Forecast cards will be rendered here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- API Documentation Section -->
+    <section class="api-docs">
+      <h2><i class="fas fa-code"></i> API Documentation</h2>
+      <div class="api-card">
+        <h3>Endpoints Used</h3>
+        <code>GET https://api.openweathermap.org/data/2.5/weather</code>
+        <code>GET https://api.openweathermap.org/data/2.5/forecast</code>
+        <h3>Parameters</h3>
+        <ul>
+          <li><code>q</code>: City name (e.g., "London")</li>
+          <li><code>appid</code>: API Key for authentication</li>
+          <li><code>units</code>: metric (for Celsius)</li>
+        </ul>
+        <h3>Sample Response</h3>
+        <pre id="sampleResponse">{
+  "name": "London",
+  "main": {
+    "temp": 15.5,
+    "feels_like": 14.2,
+    "humidity": 72,
+    "pressure": 1013
+  },
+  "weather": [{
+    "main": "Clouds",
+    "description": "scattered clouds",
+    "icon": "03d"
+  }],
+  "wind": { "speed": 5.2 }
+}</pre>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Developed by <span class="developer-name">Almeera</span></p>
+        <p class="footer-note">Data provided by OpenWeatherMap API</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

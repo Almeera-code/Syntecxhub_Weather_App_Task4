@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Log API info for documentation
-console.log('%c☀️ Arfa SkyVerse Weather Dashboard', 'font-size: 20px; font-weight: bold; color: #4facfe;');
+console.log('%c☀️ Almeera SkyVerse Weather Dashboard', 'font-size: 20px; font-weight: bold; color: #4facfe;');
 console.log('%cAPI Documentation:', 'font-size: 14px; color: #00f2fe;');
 console.log(`
 Endpoints:
